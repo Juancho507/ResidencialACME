@@ -171,7 +171,6 @@ CREATE TABLE `pago` (
   `idPago` int NOT NULL,
   `FechaPago` date NOT NULL,
   `ValorPagado` decimal(10,2) NOT NULL,
-  `Propietario_idPropietario` int NOT NULL,
   `CuentaCobro_idCuentaCobro` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
@@ -179,35 +178,35 @@ CREATE TABLE `pago` (
 -- Volcado de datos para la tabla `pago`
 --
 
-INSERT INTO `pago` (`idPago`, `FechaPago`, `ValorPagado`, `Propietario_idPropietario`, `CuentaCobro_idCuentaCobro`) VALUES
-(1, '2025-05-01', 150000.00, 101, 1),
-(2, '2025-05-02', 80000.00, 102, 2),
-(3, '2025-06-03', 0.00, 103, 3),
-(4, '2025-05-04', 150000.00, 104, 4),
-(5, '2025-05-05', 100000.00, 105, 5),
-(6, '2025-06-06', 0.00, 106, 6),
-(7, '2025-05-07', 150000.00, 107, 7),
-(8, '2025-05-08', 70000.00, 108, 8),
-(9, '2025-06-09', 0.00, 109, 9),
-(10, '2025-05-10', 150000.00, 110, 10),
-(11, '2025-05-11', 120000.00, 111, 11),
-(12, '2025-06-12', 0.00, 112, 12),
-(13, '2025-05-13', 150000.00, 113, 13),
-(14, '2025-05-14', 60000.00, 114, 14),
-(15, '2025-06-15', 0.00, 115, 15),
-(16, '2025-05-16', 150000.00, 101, 16),
-(17, '2025-05-17', 90000.00, 102, 17),
-(18, '2025-06-18', 0.00, 103, 18),
-(19, '2025-05-19', 150000.00, 104, 19),
-(20, '2025-05-20', 75000.00, 105, 20),
-(21, '2025-06-21', 0.00, 106, 21),
-(22, '2025-05-22', 150000.00, 107, 22),
-(23, '2025-05-23', 110000.00, 108, 23),
-(24, '2025-06-24', 0.00, 109, 24),
-(25, '2025-05-25', 150000.00, 110, 25),
-(26, '2025-05-26', 95000.00, 111, 26),
-(27, '2025-06-27', 0.00, 112, 27),
-(28, '2025-05-28', 150000.00, 113, 28);
+INSERT INTO `pago` (`idPago`, `FechaPago`, `ValorPagado`, `CuentaCobro_idCuentaCobro`) VALUES
+(1, '2025-05-01', 150000.00, 1),
+(2, '2025-05-02', 80000.00, 2),
+(3, '2025-06-03', 0.00, 3),
+(4, '2025-05-04', 150000.00, 4),
+(5, '2025-05-05', 100000.00, 5),
+(6, '2025-06-06', 0.00, 6),
+(7, '2025-05-07', 150000.00, 7),
+(8, '2025-05-08', 70000.00, 8),
+(9, '2025-06-09', 0.00, 9),
+(10, '2025-05-10', 150000.00, 10),
+(11, '2025-05-11', 120000.00, 11),
+(12, '2025-06-12', 0.00, 12),
+(13, '2025-05-13', 150000.00, 13),
+(14, '2025-05-14', 60000.00, 14),
+(15, '2025-06-15', 0.00, 15),
+(16, '2025-05-16', 150000.00, 16),
+(17, '2025-05-17', 90000.00, 17),
+(18, '2025-06-18', 0.00, 18),
+(19, '2025-05-19', 150000.00, 19),
+(20, '2025-05-20', 75000.00, 20),
+(21, '2025-06-21', 0.00, 21),
+(22, '2025-05-22', 150000.00, 22),
+(23, '2025-05-23', 110000.00, 23),
+(24, '2025-06-24', 0.00, 24),
+(25, '2025-05-25', 150000.00, 25),
+(26, '2025-05-26', 95000.00, 26),
+(27, '2025-06-27', 0.00, 27),
+(28, '2025-05-28', 150000.00, 28);
 
 -- --------------------------------------------------------
 
@@ -281,7 +280,6 @@ ALTER TABLE `estadocuentacobro`
 --
 ALTER TABLE `pago`
   ADD PRIMARY KEY (`idPago`),
-  ADD KEY `fk_Pago_Propietario1_idx` (`Propietario_idPropietario`),
   ADD KEY `fk_Pago_CuentaCobro1_idx` (`CuentaCobro_idCuentaCobro`);
 
 --
@@ -340,9 +338,8 @@ ALTER TABLE `cuentacobro`
 -- Filtros para la tabla `pago`
 --
 ALTER TABLE `pago`
-  ADD CONSTRAINT `fk_Pago_CuentaCobro1` FOREIGN KEY (`CuentaCobro_idCuentaCobro`) REFERENCES `cuentacobro` (`idCuentaCobro`),
-  ADD CONSTRAINT `fk_Pago_Propietario1` FOREIGN KEY (`Propietario_idPropietario`) REFERENCES `propietario` (`idPropietario`);
-COMMIT;
+  ADD CONSTRAINT `fk_Pago_CuentaCobro1` FOREIGN KEY (`CuentaCobro_idCuentaCobro`) REFERENCES `cuentacobro` (`idCuentaCobro`);
+  COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
