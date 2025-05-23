@@ -14,5 +14,10 @@ class PropietarioDAO{
         $this -> correo = $correo;
         $this -> clave = $clave;
     }
+    public function autenticar(){
+        return "select idPropietario
+                from Propietario
+                where correo = '" . $this -> correo . "' and clave = '" . md5($this -> clave) . "'";
+    }
     
 }

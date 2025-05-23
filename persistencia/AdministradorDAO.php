@@ -14,5 +14,10 @@ class AdministradorDAO{
         $this -> correo = $correo;
         $this -> clave = $clave;
     }
-
+    
+    public function autenticar(){
+        return "select idAdministrador
+                from Administrador
+                where correo = '" . $this -> correo . "' and clave = '" . md5($this -> clave) . "'";
+    }
 }
