@@ -2,6 +2,10 @@
 session_start();
 require ("logica/Propietario.php");
 require ("logica/Administrador.php");
+require ("logica/Apartamento.php");
+require ("logica/CuentaCobro.php");
+require ("logica/Pago.php");
+require ("logica/EstadoCuentaCobro.php");
 
 
 ?>
@@ -25,6 +29,9 @@ $paginas_sin_autenticacion = array (
 $paginas_con_autenticacion = array (
     "presentacion/sesionAdministrador.php",
     "presentacion/sesionPropietario.php",
+    "presentacion/apartamento/consultar.php",
+    "presentacion/cuentas/pagarCuentas.php",
+    "presentacion/cuentas/verCuentas.php",
 );
 
 if(!isset($_GET["pid"])){
