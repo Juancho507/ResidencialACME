@@ -5,7 +5,6 @@ $rol = $_SESSION["rol"];
 <body>
 <?php 
 include("presentacion/encabezado.php");
-include("presentacion/menu" . ucfirst($rol) . ".php");
 ?>
 <div class="container">
 	<div class="row mt-3">

@@ -32,6 +32,7 @@ $paginas_con_autenticacion = array (
     "presentacion/apartamento/consultar.php",
     "presentacion/cuentas/pagarCuentas.php",
     "presentacion/cuentas/verCuentas.php",
+    "presentacion/propietario/consultarPr.php",
 );
 
 if(!isset($_GET["pid"])){

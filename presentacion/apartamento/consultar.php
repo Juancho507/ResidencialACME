@@ -1,11 +1,10 @@
-<?php 
+<?php
 $id = $_SESSION["id"];
 $rol = $_SESSION["rol"];
 ?>
 <body>
 <?php 
 include("presentacion/encabezado.php");
-include("presentacion/menu" . ucfirst($rol) . ".php");
 ?>
 <div class="container">
 	<div class="row mt-3">
@@ -13,7 +12,7 @@ include("presentacion/menu" . ucfirst($rol) . ".php");
 			<div class="card">
 				<div class="card-header"><h4>Apartamentos</h4></div>
 				<div class="card-body">
-    				<?php 
+    				<?php
     				$apartamento = new Apartamento();
     				$apartamentos = $apartamento->consultar($rol, $id);
 
@@ -21,12 +20,12 @@ include("presentacion/menu" . ucfirst($rol) . ".php");
     				    echo "<div class='alert alert-warning'>No se encontraron apartamentos.</div>";
     				} else {
     				    echo "<table class='table table-striped table-hover'>";
-    				    echo "<tr><td>ID</td><td>Torre</td><td>Número</td>";
+    				    echo "<thead><tr><th>ID</th><th>Torre</th><th>Número</th>";
     				    if($rol != "propietario"){
-    				        echo "<td>Propietario</td>";
+    				        echo "<th>Propietario</th>";
     				    }
-    				    echo "</tr>";
-    				    
+    				    echo "</tr></thead>"; 
+    				    echo "<tbody>"; 
     				    foreach($apartamentos as $apt){
     				        echo "<tr>";
     				        echo "<td>" . $apt->getId() . "</td>";
@@ -37,13 +36,13 @@ include("presentacion/menu" . ucfirst($rol) . ".php");
     				        }
     				        echo "</tr>";
     				    }
+    				    echo "</tbody>"; 
     				    echo "</table>";
     				}
-    				?>			
+    				?>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
 </body>
-

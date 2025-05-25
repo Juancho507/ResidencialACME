@@ -5,7 +5,7 @@ $rol = $_SESSION["rol"];
 <body>
 <?php 
 include("presentacion/encabezado.php");
-include("presentacion/menu" . ucfirst($rol) . ".php");
+
 ?>
 
 <div class="container">
@@ -27,8 +27,7 @@ include("presentacion/menu" . ucfirst($rol) . ".php");
 				            <th>ID</th>
 				            <th>Fecha Expedición</th>
 				            <th>Fecha Vencimiento</th>
-				            <th>Valor</th>
-				            <th>Interés Mora</th>
+				            <th>Valor</th>			         
 				            <th>Apartamento</th>
 				            <th>Estado</th>
 				          </tr></thead>";
@@ -38,9 +37,8 @@ include("presentacion/menu" . ucfirst($rol) . ".php");
 				        echo "<td>" . $c->getFechaExpedicion() . "</td>";
 				        echo "<td>" . $c->getFechaVencimiento() . "</td>";
 				        echo "<td>$" . number_format($c->getValor(), 0, ',', '.') . "</td>";
-				        echo "<td>$" . number_format($c->getInteresMora(), 0, ',', '.') . "</td>";
 				        $apt = $c->getApartamento();
-				        echo "<td>" . $apt->getNombreTorre() . " - " . $apt->getNumero() . "</td>";
+				        echo "<td>" . $apt->getTorre() . " - " . $apt->getNumero() . "</td>";
 				        echo "<td>" . ucfirst($c->getEstadoCuenta()->getNombre()) . "</td>";
 				        echo "</tr>";
 				    }

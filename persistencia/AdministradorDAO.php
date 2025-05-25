@@ -6,7 +6,7 @@ class AdministradorDAO{
     private $apellido;
     private $correo;
     private $clave;
-
+    
     public function __construct($id = 0, $nombre = "", $apellido = "", $correo = "", $clave = ""){
         $this -> id = $id;
         $this -> nombre = $nombre;
@@ -20,4 +20,12 @@ class AdministradorDAO{
                 from Administrador
                 where correo = '" . $this -> correo . "' and clave = '" . md5($this -> clave) . "'";
     }
+    
+    public function consultar() {
+        return "SELECT nombre, apellido, correo
+                FROM Administrador
+                WHERE idAdministrador = " . $this->id;
+    }
 }
+
+
