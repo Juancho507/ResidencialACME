@@ -39,10 +39,13 @@ $propietario->consultar();
         <ul class="dropdown-menu" aria-labelledby="cuentasDropdown">
           <li><a class="dropdown-item" href="?pid=<?php echo base64_encode("presentacion/cuenta/verCuentas.php") ?>">Consultar</a></li>
           <li><a class="dropdown-item" href="?pid=<?php echo base64_encode("presentacion/cuenta/pagarCuentas.php") ?>">Pagar</a></li>
+          <li><a class="dropdown-item" href="?pid=<?php echo base64_encode("presentacion/cuenta/historialPagos.php") ?>">Historial de Pagos</a></li>
         </ul>
       </li>
     </ul>
-
+    
+    
+    
     <!-- Usuario y cerrar sesión -->
     <ul class="navbar-nav mb-2 mb-lg-0">
       <li class="nav-item">

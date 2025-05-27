@@ -36,6 +36,7 @@ $paginas_con_autenticacion = array (
     "presentacion/cuenta/crearCuentaCobro.php",
     "presentacion/cuenta/cuentasCobroActuales.php",
     "presentacion/cuenta/pagoRealizado.php",
+    "presentacion/cuenta/historialPagos.php",
 );
 
 if(!isset($_GET["pid"])){
