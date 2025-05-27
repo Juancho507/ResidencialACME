@@ -1,9 +1,15 @@
+<?php 
+$id = $_SESSION["id"];
+$rol = $_SESSION["rol"];
+?>
 <body>
 <?php 
 include("presentacion/encabezado.php");
+include ("presentacion/menu" . ucfirst($rol) . ".php");
 ?>
+
 <div class="container">
-	<div class="row mt-3">
+	<div class="row">
 		<div class="col">
 			<div class="card">
 				<div class="card-header"><h4>Propietarios</h4></div>

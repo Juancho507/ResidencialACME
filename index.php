@@ -30,9 +30,12 @@ $paginas_con_autenticacion = array (
     "presentacion/sesionAdministrador.php",
     "presentacion/sesionPropietario.php",
     "presentacion/apartamento/consultar.php",
-    "presentacion/cuentas/pagarCuentas.php",
-    "presentacion/cuentas/verCuentas.php",
+    "presentacion/cuenta/pagarCuentas.php",
+    "presentacion/cuenta/verCuentas.php",
     "presentacion/propietario/consultarPr.php",
+    "presentacion/cuenta/crearCuentaCobro.php",
+    "presentacion/cuenta/cuentasCobroActuales.php",
+    "presentacion/cuenta/pagoRealizado.php",
 );
 
 if(!isset($_GET["pid"])){
