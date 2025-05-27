@@ -5,25 +5,34 @@ $mensaje = false;
 if(isset($_GET["idCuenta"])){
 $idCuenta = $_GET["idCuenta"];
 }else if(isset($_POST["idCuenta"])){
+    $nuevoValor = 0;
     $idCuenta = $_POST["idCuenta"];
     if(isset($_POST["pagar"])&&isset($_POST["valorPago"])&&isset($_POST["valor"])&&isset($_POST["estado"])){
         $pago = new Pago("", date('Y-m-d'), $_POST['valorPago'], $idCuenta);
         $pago -> crearPago();
         $nuevoValor = $_POST['valor'] -  $_POST['valorPago'];
+        if($nuevoValor < 0){
+            echo "<div class='alert alert-' role='alert'>Valor invalido</div>";
+        }else{
         if($nuevoValor == 0){
             $cuenta1 = new CuentaCobro($idCuenta,"","","",$nuevoValor,"","",1);
             $cuenta1-> actualizarCuentaCobro();
+            $mensaje = true;
         }else if($_POST["estado"]==2){
             $cuenta1 = new CuentaCobro($idCuenta,"","","",$nuevoValor,"","",2);
             $cuenta1 -> actualizarCuentaCobro();
+            $mensaje = true;
         } else if($_POST["estado"]==3){
             $cuenta1 = new CuentaCobro($idCuenta,"","","",$nuevoValor,"","",3);
             $cuenta1 -> actualizarCuentaCobro();
+            $mensaje = true;
         }else if($_POST["estado"]==4){
             $cuenta1 = new CuentaCobro($idCuenta,"","","",$nuevoValor,"","",2);
             $cuenta1 -> actualizarCuentaCobro();
+            $mensaje = true;
         }
-        $mensaje = true;
+        }
+
     }
 }
 $cuenta = new CuentaCobro($idCuenta);
@@ -73,16 +82,65 @@ include ("presentacion/menu" . ucfirst($rol) . ".php");
                   <div class="mb-3">
                     <label class="form-label fw-bold">Valor Total:</label>
                     <p class="form-control-plaintext"><?php 
-                    if($cuenta ->getEstadoCuenta()->getId()==3){
-                        $fechaActual = new DateTime();
-                        $fechaVencida = new DateTime($cuenta -> getFechaVencimiento());
-                        $diferencia = $fechaVencida->diff($fechaActual);
-                        $valor = $cuenta->getValor() + ($cuenta ->getValorAdministracion() * $cuenta -> getInteresMora() *($diferencia->days));
-                        echo $valor;
-                    } else {
+                    $cont=0;
+                    $sumaDeuda = 0;
+                    $cuenta2 = new CuentaCobro();
+                    $cuentas = $cuenta2 -> consultarCuentasCobroPorApartamento($cuenta -> getApartamento()->getId());
+                    if(empty($cuentas)){
                         $valor = $cuenta->getValor();
                         echo $valor;
-                    }?></p>
+                    } else {
+                        foreach ($cuentas as $c) {
+                            $pagado = 0;
+                            if($cuenta ->getEstadoCuenta()->getId()==2){
+                                if($c ->getEstadoCuenta()->getId()==3&&$c->getFechaVencimiento()<$cuenta->getFechaExpedicion()){
+                                    $pago = new Pago();
+                                    $pagos = $pago->consultarPorCuentaCobro($idCuenta);
+                                    foreach ($pagos as $p){
+                                        $pagado += $p->getValorPagado();
+                                        }
+                                        $fechaUltimoPago = new DateTime($p->getFechaPago());
+                                        $diferencia = $fechaUltimoPago->diff(date('Y-m-d'));
+                                        $sumaDeuda += $c ->getValor() + ($c ->getValorAdministracion() * $c -> getInteresMora() * $diferencia->days) - $pagado;
+                                        
+                                }
+                            }else if($cuenta ->getEstadoCuenta()->getId()==4){
+                                if($c ->getEstadoCuenta()->getId()==3&&$c->getFechaVencimiento()<$cuenta->getFechaExpedicion()){
+                                        $fechaExpedicion = new DateTime($cuenta->getFechaExpedicion());
+                                        $diferencia = $fechaExpedicion->diff(date('Y-m-d'));
+                                        $sumaDeuda += $c ->getValor() + ($c ->getValorAdministracion() * $c -> getInteresMora() * $diferencia->days);
+                                }
+                            } else if($cuenta ->getEstadoCuenta()->getId()==3){
+                                if($c ->getEstadoCuenta()->getId()==3&&$c->getFechaVencimiento()<$cuenta->getFechaExpedicion()){
+                                    $pago = new Pago();
+                                    $pagos = $pago->consultarPorCuentaCobro($idCuenta);
+                                    foreach ($pagos as $p){
+                                        $pagado += $p->getValorPagado();
+                                    }
+                                    $fechaActual = new DateTime();
+                                    $fechaVencimiento = new DateTime($c->getFechaVencimiento());
+                                    $diferencia = $fechaVencimiento->diff($fechaActual);
+                                    $sumaDeuda += $c ->getValor() + ($c ->getValorAdministracion() * $c -> getInteresMora() * $diferencia->days) - $pagado;
+                                    $cont++;
+                                    }
+                                }
+                            }
+                            if($cuenta ->getEstadoCuenta()->getId()==2){
+                                $valor = $sumaDeuda + $cuenta->getValor();
+                                echo $valor;
+                            }else if($cuenta ->getEstadoCuenta()->getId()==4){
+                                $valor = $sumaDeuda + $cuenta->getValor();
+                                echo $valor;
+                            }else if($cuenta ->getEstadoCuenta()->getId()==3){                                
+                                $fechaActual = new DateTime();
+                                $fechaVencida = new DateTime($cuenta -> getFechaVencimiento());
+                                $diferencia = $fechaVencida->diff($fechaActual);
+                                $valor = $cuenta->getValor() + ($cuenta ->getValorAdministracion() * $cuenta -> getInteresMora() *($diferencia->days)) + $sumaDeuda;
+                                echo $valor;
+                            }
+                        }
+                        ?>
+                        </p>
                   </div>
                 
                   <form action="?pid=<?php echo base64_encode("presentacion/cuenta/pagoRealizado.php"); ?>" method="post">
