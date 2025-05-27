@@ -107,7 +107,7 @@ class CuentaCobroDAO{
     FROM CuentaCobro cc
     INNER JOIN Apartamento a ON cc.Apartamento_idApartamento = a.idApartamento
     INNER JOIN EstadoCuentaCobro ec ON cc.EstadoCuentaCobro_idEstadoCuentaCobros = ec.idEstadoCuentaCobros
-    WHERE ec.idEstadoCuentaCobros != 1" ;
+    WHERE ec.idEstadoCuentaCobros != 1 and a.Propietario_idPropietario = '$id'" ;
         $sentencia .= " ORDER BY cc.FechaExpedicion DESC";
         return $sentencia;
     }
