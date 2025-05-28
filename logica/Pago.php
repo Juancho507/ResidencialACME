@@ -32,6 +32,10 @@ class Pago{
         return $this -> cuentaCobro;
     }
     
+    public function setCuentaCobro(CuentaCobro $cuentaCobro){
+      return $this -> cuentaCobro = $cuentaCobro;
+    }
+    
     public function consultar($id=""){
         $conexion = new Conexion();
         $pagoDAO = new PagoDAO ();
@@ -69,8 +73,22 @@ class Pago{
         $conexion -> cerrar();
     }
     
-    
+    public function consultarPagosPorPropietario($idPropietario){
+        $conexion = new Conexion();
+        $pagoDAO = new PagoDAO(); 
+        $conexion->abrir();
+        $conexion->ejecutar($pagoDAO->consultarPagosConCuentaPorPropietario($idPropietario)); 
+        $pagos = array();
+        while($datos = $conexion->registro()){
+            $apartamento = new Apartamento($datos[12], $datos[13], $datos[14]); 
+            $estadoCuenta = new EstadoCuentaCobro($datos[16], $datos[17]); 
+            $cuentaCobro = new CuentaCobro($datos[3], $datos[4], $datos[5], $datos[6], $datos[7], $datos[8], $apartamento, $estadoCuenta );           
+            $pago = new Pago($datos[0], $datos[1], $datos[2] );
+            $pago->setCuentaCobro($cuentaCobro);
+            $pagos[] = $pago;
+        }
+        $conexion->cerrar();    
+        return $pagos;
+    }
 }
-
-
 ?>

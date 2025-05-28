@@ -5,7 +5,7 @@ class Conexion{
     private $resultado;
     
     public function abrir(){
-        $this -> conexion = new mysqli("localhost", "root", ""/*"103279"*/, "residencialacme");
+        $this -> conexion = new mysqli("localhost", "root", "103279", "residencialacme");
     }
     
     public function cerrar(){
